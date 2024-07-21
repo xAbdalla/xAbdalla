@@ -1,0 +1,64 @@
+name: Update Assets
+
+on:
+  schedule:
+    - cron: "* */24 * * *" # Every 12 hours
+  workflow_dispatch: # Allows manual triggering of the workflow
+  push:
+    branches:
+      - main # Trigger the workflow on pushes to the main branch
+
+jobs:
+  update_assets:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: main # Check out the main branch
+
+      - name: Create assets directory
+        run: mkdir -p assets
+
+      - name: Download images
+        run: |
+          curl -o assets/stats_graph.svg "https://github-readme-stats.vercel.app/api?username=xAbdalla&hide_title=true&hide_rank=false&show_icons=true&include_all_commits=true&count_private=true&disable_animations=false&theme=dracula&locale=en&hide_border=false"
+          curl -o assets/languages_graph.svg "https://github-readme-stats.vercel.app/api/top-langs?username=xAbdalla&locale=en&hide_title=true&layout=compact&card_width=320&langs_count=5&theme=dracula&hide_border=false"
+          curl -o assets/trophy_graph.svg "https://github-profile-trophy.vercel.app?username=xAbdalla&theme=dracula&column=5&row=1&margin-w=10&no-frame=false&no-bg=flase"
+          curl -o assets/python_logo.svg "https://skillicons.dev/icons?i=py"
+          curl -o assets/anaconda_logo.svg "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/anaconda/anaconda-original.svg"
+          curl -o assets/jupyter_logo.svg "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg"
+          curl -o assets/selenium_logo.svg "https://skillicons.dev/icons?i=selenium"
+          curl -o assets/redhat_logo.svg "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redhat/redhat-original.svg"
+          curl -o assets/linux_logo.svg "https://skillicons.dev/icons?i=linux"
+          curl -o assets/bash_logo.svg "https://skillicons.dev/icons?i=bash"
+          curl -o assets/arduino_logo.svg "https://skillicons.dev/icons?i=arduino"
+          curl -o assets/git_logo.svg "https://skillicons.dev/icons?i=git"
+          curl -o assets/adobephotoshop_logo.svg "https://skillicons.dev/icons?i=ps"
+          curl -o assets/linkedin_logo.svg "https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=white&logoColor=white&labelColor=0077B5&style=for-the-badge"
+          curl -o assets/medium_logo.svg "https://img.shields.io/static/v1?message=Medium&logo=medium&label=&color=white&logoColor=white&labelColor=black&style=for-the-badge"
+          curl -o assets/tryhackme_logo.svg "https://img.shields.io/static/v1?message=TryHackMe&logo=tryhackme&label=&color=white&logoColor=red&labelColor=88cc14&style=for-the-badge"
+      
+      - name: Generate snake.svg
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: dist/snake.svg?palette=github-dark
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move snake.svg to assets folder
+        run: |
+          mv dist/snake.svg assets/snake.svg
+          
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add assets/
+          git commit -m "Update assets [bot]"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
