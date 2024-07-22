@@ -26,7 +26,7 @@ jobs:
         run: |
           curl -o assets/stats_graph.svg "https://github-readme-stats.vercel.app/api?username=xAbdalla&hide_title=true&hide_rank=false&show_icons=true&include_all_commits=true&count_private=true&disable_animations=false&theme=dracula&locale=en&hide_border=false"
           curl -o assets/languages_graph.svg "https://github-readme-stats.vercel.app/api/top-langs?username=xAbdalla&locale=en&hide_title=true&layout=compact&card_width=320&langs_count=5&theme=dracula&hide_border=false"
-          curl -o assets/trophy_graph.svg "https://github-profile-trophy.vercel.app?username=xAbdalla&theme=dracula&column=5&row=1&margin-w=10&no-frame=false&no-bg=flase"
+          curl -o assets/trophy_graph.svg "https://github-profile-trophy.vercel.app?username=xAbdalla&theme=dracula&margin-w=10&no-frame=false&no-bg=flase"
           curl -o assets/python_logo.svg "https://skillicons.dev/icons?i=py"
           curl -o assets/anaconda_logo.svg "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/anaconda/anaconda-original.svg"
           curl -o assets/jupyter_logo.svg "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg"
